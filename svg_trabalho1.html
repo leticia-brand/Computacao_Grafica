@@ -28,20 +28,58 @@
 	<li> Usei o site <a href="https://svg-path-visualizer.netlify.app/">SVG Path Visualizer</a> para visualizar melhor as curvas separadamente </li>
 	</ul>
 	
-  <div  style=" display: flex; justify-content: center;">
-  <svg width="725" height="605">
+<div style=" display: flex;
+  justify-content: center;">
+  <svg width="725" height="605" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  
+  <defs>
+	<linearGradient id="cor_chao"
+	x1="0%" y1="0%" x2="0%" y2="100%">	
+		<stop offset="0%" style="stop-color:#213C29;stop-opacity:1" />
+		<stop offset="50%" stop-color="#768737" stop-opacity="1"/>
+		<stop offset="100%" style="stop-color:#768737;stop-opacity:1" />
+	</linearGradient>
+	
+	<linearGradient id="cor_fundo"
+	x1="0%" y1="0%" x2="0%" y2="100%">	
+		<stop offset="0%" style="stop-color:#0A3255;stop-opacity:1" />
+		<stop offset="75%" stop-color="#0A3255" stop-opacity="1"/>
+		<stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:1" />
+	</linearGradient>
+	
+	<linearGradient id="cor_ovo"
+	x1="100%" y1="0%" x2="0%" y2="0%">	
+		<stop offset="0%" style="stop-color:#F2E5D5;stop-opacity:1" />
+		<stop offset="75%" stop-color="#F6E9D9" stop-opacity="1"/>
+		<stop offset="100%" style="stop-color:#BBA58D;stop-opacity:1" />
+	</linearGradient>
+	
+	<radialGradient id="cor_cauda_cobra">	
+		<stop offset="10%" stop-color="#9A324B" />
+		<stop offset="80%" stop-color="#65162C" />
+	<radialGradient>
+	
+	<linearGradient id="cor_cauda_cobra_reto" 
+	x1="100%" y1="0%" x2="0%" y2="0%">	
+		<stop offset="30%" style="stop-color:#65162C;stop-opacity:1" />
+		<stop offset="60%" stop-color="#91283E" stop-opacity="1"/>
+		<stop offset="80%" style="stop-color:#65162C;stop-opacity:1" />
+	</linearGradient>
 
-<rect id="fundo" x="0"	y="0"	width ="725" height="605" style="fill:#0A3255"/>
+	
+  </defs>
 
-<path id="chao" d="M -10,605 C-10,400 750,400   750,605 " style="fill: #838C3F" />
+<rect id="fundo" x="0"	y="0"	width ="725" height="605" style="fill:url(#cor_fundo)"/>
+
+<path id="chao" d="M -10,605 C-10,400 750,400   750,605 " style="fill:url(#cor_chao)" />
 
 <path id="cobra_inferior_esquerda_ovo" d="M 100, 450 L 110,400 L237.57,400 L237.57,600 " style="fill: #59122C" />
 
 <path id="cobra_inferior_direita_ovo" d="M 237.57,600  L 237.57,400 L370,450 400,500 " style="fill: #59122C" />
 
-<path id = "above_ovo" d="M 90.11, 201.6 C 90.11, 0 385.03, 0  385.03, 201.6" style="fill: #F6E7D4" />
+<path id = "above_ovo" d="M 90.11, 201.6 C 90.11, 0 385.03, 0  385.03, 201.6" style="fill: url(#cor_ovo)" />
 
-<path id="below_ovo" d="M 90.11, 201 C 90.11, 650 385.03, 650  385.03, 201" style="fill: #F6E7D4" />
+<path id="below_ovo" d="M 90.11, 201 C 90.11, 650 385.03, 650  385.03, 201"  style="fill: url(#cor_ovo)" />
 
 <path id="cobra_inferior_esquerda" d="M 100, 450 Q 91, 600 237.57,600" style="fill: #59122C" />
 
@@ -57,13 +95,13 @@
 
 <ellipse id="bastão_lower_elipse_orange" cx="580" cy="530" rx="20" ry="27" style="fill:#D94625" />
 
-<ellipse id="cobra_1_elipse" cx="580" cy="400" rx="52" ry="40" style="fill:#59122C" />
+<ellipse id="cobra_1_elipse" cx="580" cy="400" rx="52" ry="40" style="fill:url(#cor_cauda_cobra)" />
 
-<ellipse id="cobra_2_elipse" cx="582" cy="370" rx="45" ry="30" style="fill:#731739" />
+<ellipse id="cobra_2_elipse" cx="582" cy="370" rx="45" ry="30" style="fill:url(#cor_cauda_cobra)" />
 
-<ellipse id="cobra_3_elipse" cx="577" cy="330" rx="43" ry="37" style="fill:#59122C" />
+<ellipse id="cobra_3_elipse" cx="577" cy="330" rx="43" ry="37" style="fill:url(#cor_cauda_cobra)" />
 
-<path id="cauda_bastao_right" d="M 620,325 Q 620,200 550,275" style="fill:#59122C" />
+<path id="cauda_bastao_right" d="M 620,325 Q 620,200 550,275" style="fill:url(#cor_cauda_cobra_reto)" />
 
 <ellipse id="bastão_upper_elipse_orange" cx="580" cy="316" rx="14" ry="13" style="fill:#D94625" />
 
@@ -78,8 +116,6 @@
 <path id="cauda_left_final" d="M 477,242 C 490,220 490,180 420,200 C450,220 470,215 464,235" style="fill:#59122C" />
 
   </svg>
-  </div>
+</div>
 </body>
 </html>
-
-
