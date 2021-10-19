@@ -5,7 +5,7 @@
     <title> Urutu </title>
 </head> 
   
-<body style="margin-left:35px; margin-right:20px;">
+<body style="margin-left:50px; margin-right:50px;">
  <h1 style="text-align:center;">Urutu</h1>
  
  <h2> A inspiração </h2>
@@ -18,7 +18,7 @@
 	
 <h2> Os desafios </h2>
 
-	<p> Além das cores, a mudança de direção da cauda - ou seria da cabeça? - muitas vezes brusca dificulta acertar as extremidades das curvas e impossibilita um movimento tão fluido quanto o da artista.</p>
+	<p> Além das cores, a mudança de direção da cauda - ou seria da cabeça? - muitas vezes brusca dificulta acertar as extremidades das curvas e impossibilita um movimento tão fluido quanto o da artista. Ademais, muitas tentativas sem sucesso de usar o blur causaram estresse. </p>
 	
 <h2> O processo de criação</h2>
 	<ul> 
@@ -26,6 +26,8 @@
 	<li> A composição da imagem, tentando manter certa proporcionalidade foi feita usando régua mesmo </li>
 	<li> As dimensões foram mantidas proporcionais às originais a fim de evitar maiores distorções da obra </li>
 	<li> Usei o site <a href="https://svg-path-visualizer.netlify.app/">SVG Path Visualizer</a> para visualizar melhor as curvas separadamente </li>
+	<li> Para as sombras/luz usei <code>linearGradient</code> e <code>radialGradient </code> </li>
+	<li> Tentei o efeito <code> blur, </code> mas não funcionou </li>
 	</ul>
 	
 <div style=" display: flex;
@@ -65,6 +67,13 @@
 		<stop offset="60%" stop-color="#91283E" stop-opacity="1"/>
 		<stop offset="80%" style="stop-color:#65162C;stop-opacity:1" />
 	</linearGradient>
+	
+	<linearGradient id="cor_bastao" 
+	x1="100%" y1="0%" x2="0%" y2="0%">	
+		<stop offset="30%" style="stop-color:#D94625;stop-opacity:1" />
+		<stop offset="50%" stop-color="#DD5227" stop-opacity="1"/>
+		<stop offset="80%" style="stop-color:#D94625;stop-opacity:1" />
+	</linearGradient>
 
 	
   </defs>
@@ -73,9 +82,9 @@
 
 <path id="chao" d="M -10,605 C-10,400 750,400   750,605 " style="fill:url(#cor_chao)" />
 
-<path id="cobra_inferior_esquerda_ovo" d="M 100, 450 L 110,400 L237.57,400 L237.57,600 " style="fill: #59122C" />
+<path id="cobra_inferior_esquerda_ovo" d="M 100, 452 L 110,400 L239,400 L238,600 L237,600" style="fill: #59122C" />
 
-<path id="cobra_inferior_direita_ovo" d="M 237.57,600  L 237.57,400 L370,450 400,500 " style="fill: #59122C" />
+<path id="cobra_inferior_direita_ovo" d="M 237,600  L 237,400 L370,450 399,502 L238,600 " style="fill: #59122C" />
 
 <path id = "above_ovo" d="M 90.11, 201.6 C 90.11, 0 385.03, 0  385.03, 201.6" style="fill: url(#cor_ovo)" />
 
@@ -91,9 +100,9 @@
 
 <ellipse id="bastão_lower_elipse_black" cx="580" cy="535" rx="40" ry="33" style="fill:#000005" />
 
-<path id="bastão_lower_triangle" d="M 560,530 L 600,530 L590, 300 L570, 300 L 560,530 " style="fill:#D94625" />
+<path id="bastão_lower_triangle" d="M 560,530 L 600,530 L590, 300 L570, 300 L 560,530 " style="fill:url(#cor_bastao)" />
 
-<ellipse id="bastão_lower_elipse_orange" cx="580" cy="530" rx="20" ry="27" style="fill:#D94625" />
+<ellipse id="bastão_lower_elipse_orange" cx="580" cy="530" rx="20" ry="27" style="fill:url(#cor_bastao)" />
 
 <ellipse id="cobra_1_elipse" cx="580" cy="400" rx="52" ry="40" style="fill:url(#cor_cauda_cobra)" />
 
@@ -103,9 +112,9 @@
 
 <path id="cauda_bastao_right" d="M 620,325 Q 620,200 550,275" style="fill:url(#cor_cauda_cobra_reto)" />
 
-<ellipse id="bastão_upper_elipse_orange" cx="580" cy="316" rx="14" ry="13" style="fill:#D94625" />
+<ellipse id="bastão_upper_elipse_orange" cx="580" cy="316" rx="14" ry="13" style="fill:url(#cor_bastao)" />
 
-<path id="bastão_upper_triangle" d="M 568,311 L592,311 L582,90 L578,90 L 568,310 " style="fill:#D94625" />
+<path id="bastão_upper_triangle" d="M 568,311 L592,311 L582,90 L578,90 L 568,310 " style="fill:url(#cor_bastao)" />
 
 <path id="cauda_left_down" d="M 569,290 Q 520,275 510,290 L 510,275 L569,290" style="fill:#59122C" />
 
