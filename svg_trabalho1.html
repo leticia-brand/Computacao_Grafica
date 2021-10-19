@@ -59,7 +59,7 @@
 	<radialGradient id="cor_cauda_cobra">	
 		<stop offset="10%" stop-color="#9A324B" />
 		<stop offset="80%" stop-color="#65162C" />
-	<radialGradient>
+	</radialGradient>
 	
 	<linearGradient id="cor_cauda_cobra_reto" 
 	x1="100%" y1="0%" x2="0%" y2="0%">	
@@ -74,11 +74,34 @@
 		<stop offset="50%" stop-color="#DD5227" stop-opacity="1"/>
 		<stop offset="80%" style="stop-color:#D94625;stop-opacity:1" />
 	</linearGradient>
+	
+	<radialGradient id="cor_olho">	
+		<stop offset="10%" stop-color="#000000" />
+		<stop offset="40%" stop-color="#A47551" />
+		<stop offset="50%" stop-color="#E4D4C8" />
+	</radialGradient>
 
 	
   </defs>
 
-<rect id="fundo" x="0"	y="0"	width ="725" height="605" style="fill:url(#cor_fundo)"/>
+<rect id="fundo" x="0"	y="0"	width ="725" height="605" style="fill:url(#cor_fundo)">
+	<animate
+		attributeName="fill"
+		begin="sol.begin" 
+		dur="10s" 
+		from="#0A3255" 
+		to="#87CEEB" 
+		repeatCount="3"/>
+</rect>
+
+<circle id="desenha_sol" r="50" fill="#FEDE00">
+	<animateMotion id="sol"
+                dur="10s"
+				path="M 500,600 L500,0 "
+                begin="mouseover" 
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</circle>
 
 <path id="chao" d="M -10,605 C-10,400 750,400   750,605 " style="fill:url(#cor_chao)" />
 
@@ -86,7 +109,36 @@
 
 <path id="cobra_inferior_direita_ovo" d="M 237,600  L 237,400 L370,450 399,502 L238,600 " style="fill: #59122C" />
 
-<path id = "above_ovo" d="M 90.11, 201.6 C 90.11, 0 385.03, 0  385.03, 201.6" style="fill: url(#cor_ovo)" />
+<circle id="olho_1" r="15" fill="url(#cor_olho)">
+	<animateMotion
+                dur="10s"
+				path="M 180,210 L 180,194 "
+                begin="sol.begin"
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</circle>
+
+<circle id="olho_2" r="15" fill="url(#cor_olho)">
+	<animateMotion
+                dur="10s"
+				path="M 220,210 L 220,194 "
+                begin="sol.begin"
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</circle>
+
+<path id = "above_ovo" d="M 90.11, 201.6 C 90.11, 0 385.03, 0  385.03, 201.6" style="fill: url(#cor_ovo)">
+	<animateTransform id="abrir_ovo"
+				attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 385.03, 201.6"
+                to="10 385.03, 201.6"
+                begin="sol.begin"
+				dur="10s"
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</path>
 
 <path id="below_ovo" d="M 90.11, 201 C 90.11, 650 385.03, 650  385.03, 201"  style="fill: url(#cor_ovo)" />
 
@@ -96,7 +148,15 @@
 
 <path id="cobra_lateral" d="M 405,550 Q 370,450 530,400 L 550,370  Q 370,370 347,450 L400,560" style="fill:#59122C" />
 
-<path id="cobra_lateral_ovo_azul" d="M 347,450 L 450,350 L 370,360 L343,450 " style="fill:#0A3255"" />
+<path id="cobra_lateral_ovo_azul" d="M 347,450 L 450,350 L 370,360 L343,450 " style="fill:#0A3255"">
+	<animate
+		attributeName="fill"
+		begin="sol.begin" 
+		dur="10s" 
+		from="#0A3255" 
+		to="#87CEEB" 
+		repeatCount="3"/>
+</path>
 
 <ellipse id="bastão_lower_elipse_black" cx="580" cy="535" rx="40" ry="33" style="fill:#000005" />
 
@@ -120,10 +180,20 @@
 
 <path id="cauda_left_up" d="M 571,250 Q 520,250 520,280 L 569,291 L571,250 " style="fill:#59122C" />
 
-<path id="cauda_left_2_circles" d="M 540,254 C 520,260 480,280 475,240 L 465,234 C 450,290 510,310 513,284 L512,290 L540,254" style="fill:#59122C" />
+<path id="cauda_left_2_circles" d="M 540,254 C 520,260 480,280 475,240 L 465,234 C 450,290 510,310 513,284 L512,290 L540,254" style="fill:#59122C"/>
 
-<path id="cauda_left_final" d="M 477,242 C 490,220 490,180 420,200 C450,220 470,215 464,235" style="fill:#59122C" />
-
+<path id="cauda_left_final" d="M 477,242 C 490,220 490,180 420,200 C450,220 470,215 464,235" style="fill:#59122C">
+	<animateTransform 
+				attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 450 220"
+                to="10 450 220"
+                dur="0.5s"
+                begin="mouseover" 
+                repeatCount="indefinite"
+				keyTimes="0; 0.5; 1"/>
+</path>
   </svg>
 </div>
 </body>
