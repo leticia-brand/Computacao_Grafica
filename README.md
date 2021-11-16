@@ -8,7 +8,9 @@
 
 ## Trabalho 2
 
-Usando Canvas
+**Usando Canvas**
+
+Mostra o passo a passo do Algoritmo de Cohen Sutherland para Linhas, dado um retângulo fixado e um segmento de linha aleatório. Foi feito em Canvas, usando arquivo separado de JavaScript.
 
 ## Trabalho 3
 
