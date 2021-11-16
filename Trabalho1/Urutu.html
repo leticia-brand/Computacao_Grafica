@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title> Urutu </title>
+</head> 
+  
+<body style="margin-left:100px; margin-right:100px;">
+ <h1 style="text-align:center;">Urutu</h1>
+ 
+ <h2> A inspiração </h2>
+  
+  <p> Do quadro "Urutu", também conhecido como "O Ovo", feito por Tarsila do Amaral em 1928, surgiu a ideia de trabalhar em SVG com curvas de Bézier, explorando a curvilinidade da pintura, foquei em dois tipos de curvas principalmente, as do tipo "C" e do tipo "Q", além de elipses e círculos.</p>
+	
+	<p> Apesar de "O Abapuru" ser mais conhecido para representar o movimento da Antropofagia, a obra escolhida também apresenta uma luta entre deglutição e vida, onde não se sabe quem saiu vencedor.</p>
+	
+	<img src="https://static.todamateria.com.br/upload/19/28/1928oovourutu.jpg" alt="Urutu" style="display: block;  margin-left: auto; margin-right: auto; width: 35%">
+	
+<h2> Os desafios </h2>
+
+	<p> Além das cores, a mudança de direção da cauda - ou seria da cabeça? - muitas vezes brusca dificulta acertar as extremidades das curvas e impossibilita um movimento tão fluido quanto o da artista. </p>
+	
+	<p> A obra não é composta por cores sólidas, o que torna mais complicado seu manejo, bem como sombras e luminosidades presentes ao redor das figuras em destaque. Ademais, muitas tentativas sem sucesso de usar o blur causaram estresse. </p>
+	
+<h2> O processo de criação</h2>
+	<ul> 
+	<li>As cores foram especificadas usando Adobe Color </li>
+	<li> A composição da imagem, tentando manter certa proporcionalidade foi feita usando régua mesmo </li>
+	<li> As dimensões foram mantidas proporcionais às originais a fim de evitar maiores distorções da obra </li>
+	<li> Usei o site <a href="https://svg-path-visualizer.netlify.app/">SVG Path Visualizer</a> para visualizar melhor as curvas separadamente </li>
+	<li> Para as sombras/luz usei <code>linearGradient</code> e <code>radialGradient </code> </li>
+	<li> Tentei o efeito <code> blur, </code> mas não funcionou </li>
+	<li> Para as animações, utilizei o animate</li>
+	</br>
+	</ul>
+	
+<div style=" display: flex;
+  justify-content: center;">
+  <svg width="725" height="605" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  
+  <defs>
+	<linearGradient id="cor_chao"
+	x1="0%" y1="0%" x2="0%" y2="100%">	
+		<stop offset="0%" style="stop-color:#213C29;stop-opacity:1" />
+		<stop offset="50%" stop-color="#768737" stop-opacity="1"/>
+		<stop offset="100%" style="stop-color:#768737;stop-opacity:1" />
+	</linearGradient>
+	
+	<linearGradient id="cor_fundo"
+	x1="0%" y1="0%" x2="0%" y2="100%">	
+		<stop offset="0%" style="stop-color:#0A3255;stop-opacity:1" />
+		<stop offset="75%" stop-color="#0A3255" stop-opacity="1"/>
+		<stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:1" />
+	</linearGradient>
+	
+	<linearGradient id="cor_ovo"
+	x1="100%" y1="0%" x2="0%" y2="0%">	
+		<stop offset="0%" style="stop-color:#F2E5D5;stop-opacity:1" />
+		<stop offset="75%" stop-color="#F6E9D9" stop-opacity="1"/>
+		<stop offset="100%" style="stop-color:#BBA58D;stop-opacity:1" />
+	</linearGradient>
+	
+	<radialGradient id="cor_cauda_cobra">	
+		<stop offset="10%" stop-color="#9A324B" />
+		<stop offset="80%" stop-color="#65162C" />
+	</radialGradient>
+	
+	<linearGradient id="cor_cauda_cobra_reto" 
+	x1="100%" y1="0%" x2="0%" y2="0%">	
+		<stop offset="30%" style="stop-color:#65162C;stop-opacity:1" />
+		<stop offset="60%" stop-color="#91283E" stop-opacity="1"/>
+		<stop offset="80%" style="stop-color:#65162C;stop-opacity:1" />
+	</linearGradient>
+	
+	<linearGradient id="cor_bastao" 
+	x1="100%" y1="0%" x2="0%" y2="0%">	
+		<stop offset="30%" style="stop-color:#D94625;stop-opacity:1" />
+		<stop offset="50%" stop-color="#DD5227" stop-opacity="1"/>
+		<stop offset="80%" style="stop-color:#D94625;stop-opacity:1" />
+	</linearGradient>
+	
+	<radialGradient id="cor_olho">	
+		<stop offset="10%" stop-color="#000000" />
+		<stop offset="40%" stop-color="#A47551" />
+		<stop offset="50%" stop-color="#E4D4C8" />
+	</radialGradient>
+
+	
+  </defs>
+
+<rect id="fundo" x="0"	y="0"	width ="725" height="605" style="fill:url(#cor_fundo)">
+	<animate
+		attributeName="fill"
+		begin="sol.begin" 
+		dur="10s" 
+		from="#0A3255" 
+		to="#87CEEB" 
+		repeatCount="3"/>
+</rect>
+
+<circle id="desenha_sol" r="50" fill="#FEDE00">
+	<animateMotion id="sol"
+                dur="10s"
+				path="M 500,600 L500,0 "
+                begin="mouseover" 
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</circle>
+
+<path id="chao" d="M -10,605 C-10,400 750,400   750,605 " style="fill:url(#cor_chao)" />
+
+<path id="cobra_inferior_esquerda_ovo" d="M 100, 452 L 110,400 L239,400 L238,600 L237,600" style="fill: #59122C" />
+
+<path id="cobra_inferior_direita_ovo" d="M 237,600  L 237,400 L370,450 399,502 L238,600 " style="fill: #59122C" />
+
+<circle id="olho_1" r="15" fill="url(#cor_olho)">
+	<animateMotion
+                dur="10s"
+				path="M 180,210 L 180,194 "
+                begin="sol.begin"
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</circle>
+
+<circle id="olho_2" r="15" fill="url(#cor_olho)">
+	<animateMotion
+                dur="10s"
+				path="M 220,210 L 220,194 "
+                begin="sol.begin"
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</circle>
+
+<path id = "above_ovo" d="M 90.11, 201.6 C 90.11, 0 385.03, 0  385.03, 201.6" style="fill: url(#cor_ovo)">
+	<animateTransform id="abrir_ovo"
+				attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 385.03, 201.6"
+                to="10 385.03, 201.6"
+                begin="sol.begin"
+				dur="10s"
+                repeatCount="3"
+				keyTimes="0; 0.5; 1"/>
+</path>
+
+<path id="below_ovo" d="M 90.11, 201 C 90.11, 650 385.03, 650  385.03, 201"  style="fill: url(#cor_ovo)" />
+
+<path id="cobra_inferior_esquerda" d="M 100, 450 Q 91, 600 237.57,600" style="fill: #59122C" />
+
+<path id="cobra_inferior_direita" d="M 237.57,600 Q 450, 600 400,500" style="fill: #59122C" />
+
+<path id="cobra_lateral" d="M 405,550 Q 370,450 530,400 L 550,370  Q 370,370 347,450 L400,560" style="fill:#59122C" />
+
+<path id="cobra_lateral_ovo_azul" d="M 347,450 L 450,350 L 370,360 L343,450 " style="fill:#0A3255"">
+	<animate
+		attributeName="fill"
+		begin="sol.begin" 
+		dur="10s" 
+		from="#0A3255" 
+		to="#87CEEB" 
+		repeatCount="3"/>
+</path>
+
+<ellipse id="bastão_lower_elipse_black" cx="580" cy="535" rx="40" ry="33" style="fill:#000005" />
+
+<path id="bastão_lower_triangle" d="M 560,530 L 600,530 L590, 300 L570, 300 L 560,530 " style="fill:url(#cor_bastao)" />
+
+<ellipse id="bastão_lower_elipse_orange" cx="580" cy="530" rx="20" ry="27" style="fill:url(#cor_bastao)" />
+
+<ellipse id="cobra_1_elipse" cx="580" cy="400" rx="52" ry="40" style="fill:url(#cor_cauda_cobra)" />
+
+<ellipse id="cobra_2_elipse" cx="582" cy="370" rx="45" ry="30" style="fill:url(#cor_cauda_cobra)" />
+
+<ellipse id="cobra_3_elipse" cx="577" cy="330" rx="43" ry="37" style="fill:url(#cor_cauda_cobra)" />
+
+<path id="cauda_bastao_right" d="M 620,325 Q 620,200 550,275" style="fill:url(#cor_cauda_cobra_reto)" />
+
+<ellipse id="bastão_upper_elipse_orange" cx="580" cy="316" rx="14" ry="13" style="fill:url(#cor_bastao)" />
+
+<path id="bastão_upper_triangle" d="M 568,311 L592,311 L582,90 L578,90 L 568,310 " style="fill:url(#cor_bastao)" />
+
+<path id="cauda_left_down" d="M 569,290 Q 520,275 510,290 L 510,275 L569,290" style="fill:#59122C" />
+
+<path id="cauda_left_up" d="M 571,250 Q 520,250 520,280 L 569,291 L571,250 " style="fill:#59122C" />
+
+<path id="cauda_left_2_circles" d="M 540,254 C 520,260 480,280 475,240 L 465,234 C 450,290 510,310 513,284 L512,290 L540,254" style="fill:#59122C"/>
+
+<path id="cauda_left_final" d="M 477,242 C 490,220 490,180 420,200 C450,220 470,215 464,235" style="fill:#59122C">
+	<animateTransform 
+				attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 450 220"
+                to="10 450 220"
+                dur="0.5s"
+                begin="mouseover" 
+                repeatCount="indefinite"
+				keyTimes="0; 0.5; 1"/>
+</path>
+  </svg>
+</div>
+</br>
+</body>
+</html>
