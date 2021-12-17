@@ -18,4 +18,7 @@ Mostra o passo a passo do Algoritmo de Cohen Sutherland para Linhas, dado um ret
 
 ### Parte 1
 
+Usando os histogramas para encontrar canais RGB e HSL. Altera contraste de imagens por transformações no histograma de luminância.
+
+### Parte 2
 
