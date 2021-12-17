@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+    <figure>
+        <canvas id="imagemOriginal" width="900" height="600"></canvas>
+        <canvas id="imagemOutput" width="900" height="600"></canvas>
+        <figcaption>
+            Imagem da esquerda: Original. Imagem da direita: Imagem processada.
+        </figcaption>
+    </figure>
+
+
+    <script>
+        var canvasOriginal = document.getElementById("imagemOriginal");
+        var ctxOriginal = canvasOriginal.getContext("2d");
+        
+        var canvasOut = document.getElementById("imagemOutput");
+        var ctxOutput = canvasOut.getContext("2d");
+        
+        var imgOriginal = new Image();
+        var imgDataOut = new Image();
+    
+    //It seems that firefox does not allow you to use getImageData(...) unless the source of the canvas is from the same domain, 
+    //and it does not consider files on your hard drive as being from the same domain as an html document also on your hard drive.	
+    //https://developpaper.com/explain-how-to-solve-the-cross-domain-problem-of-canvas-image-getimagedata-todataurl/
+        
+        var imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg/1024px-%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg";
+        //var imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Eiffel_tower_at_Exposition_Universelle%2C_Paris%2C_1889.jpg/800px-Eiffel_tower_at_Exposition_Universelle%2C_Paris%2C_1889.jpg";
+       
+        imgOriginal.crossOrigin = '';
+        imgDataOut.crossOrigin = '';
+        imgOriginal.src = imgUrl;
+        imgOriginal.onload = function(){
+            ctxOriginal.drawImage(imgOriginal, 0, 0);
+            ctxOutput.drawImage(imgOriginal, 0, 0);
+            //ctxOutput.drawImage(imgOriginal, 50, 50);
+            //ctxOutput.drawImage(imgOriginal, 100, 100);
+            
+            imgDataOut = ctxOriginal.getImageData(0, 0, 390, 600);
+            
+            // invert colors
+            for (let i = 0; i < imgDataOut.data.length; i += 4) {
+                imgDataOut.data[i] = 255 - imgDataOut.data[i];
+                imgDataOut.data[i+1] = 255 - imgDataOut.data[i+1];
+                imgDataOut.data[i+2] = 255 - imgDataOut.data[i+2];
+                //imgDataOut.data[i+3] = 255;
+            }
+            ctxOutput.putImageData(imgDataOut, 0, 0);		
+    };	    
+    </script>
+
+</body>
+</html>

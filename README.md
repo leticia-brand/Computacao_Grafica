@@ -14,4 +14,8 @@ Mostra o passo a passo do Algoritmo de Cohen Sutherland para Linhas, dado um ret
 
 ## Trabalho 3
 
-Processamento de imagem
+**Processamento de imagens**
+
+### Parte 1
+
+
