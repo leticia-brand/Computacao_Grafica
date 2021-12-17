@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <title> Processamento de cores </title>
 </head>
 <body>
+ <h1> Processamento de imagem usando cores</h1>
 
+ <h2> Histograma de RGB</h2>
     <figure>
-        <canvas id="imagemOriginal" width="950" height="600"></canvas>
-        <canvas id="imagemOutput" width="270" height="400"></canvas>
+        <canvas id="imagemOriginal" width="900" height="600"></canvas>
+        <canvas id="histo_rgb" width="320" height="400"></canvas>
         <figcaption>
-            Imagem e histograma RGB correspondente
+            Esquerda: imagem original; direita: histograma RGB correspondente
         </figcaption>
     </figure>
 
@@ -17,8 +21,8 @@
         var canvasOriginal = document.getElementById("imagemOriginal");
         var ctxOriginal = canvasOriginal.getContext("2d");
         
-        var canvasOut = document.getElementById("imagemOutput");
-        var ctxOutput = canvasOut.getContext("2d");
+        var canvasOut = document.getElementById("histo_rgb");
+        var rgb = canvasOut.getContext("2d");
         
         var imgOriginal = new Image();
         var imgDataOut = new Image();
@@ -42,9 +46,9 @@
             //Não vou usar o canal de luminância
             //Usar dicionários facilita o processo
 
-            red_freq = {};
-            green_freq = {};
-            blue_freq = {};
+            let red_freq = {};
+            let green_freq = {};
+            let blue_freq = {};
 
             //Lembrar que os dicionários estão vazios, então vai aparecer NaN no lugar de números
             //Sabemos os valores minimo (0) e máximo (255)
@@ -69,32 +73,156 @@
             //importante começar do final, ou o histograma vai ficar de cabeça para baixo
             for (let k = 0; k < 256; k++) {
                 //red
-                ctxOutput.beginPath();
-                ctxOutput.moveTo(k, 300);
-                ctxOutput.lineTo(k, 300 - red_freq[k]/40);
-                ctxOutput.closePath();
-                ctxOutput.strokeStyle = '#CD5C5C';
-                ctxOutput.stroke();
+                rgb.beginPath();
+                rgb.moveTo(k+30, 300);
+                rgb.lineTo(k+30, 300 - red_freq[k]/30);
+                rgb.closePath();
+                rgb.strokeStyle = '#CD5C5C';
+                rgb.stroke();
 
                 //gren
-                ctxOutput.beginPath();
-                ctxOutput.moveTo(k, 300);
-                ctxOutput.lineTo(k, 300 - green_freq[k]/40);
-                ctxOutput.closePath();
-                ctxOutput.strokeStyle = '	#228B22';
-                ctxOutput.stroke();
+                rgb.beginPath();
+                rgb.moveTo(k+30, 300);
+                rgb.lineTo(k+30, 300 - green_freq[k]/30);
+                rgb.closePath();
+                rgb.strokeStyle = '	#228B22';
+                rgb.stroke();
 
                 //blue
-                ctxOutput.beginPath();
-                ctxOutput.moveTo(k, 300);
-                ctxOutput.lineTo(k, 300 - blue_freq[k]/40);
-                ctxOutput.closePath();
-                ctxOutput.strokeStyle = '#000099';
-                ctxOutput.stroke();
+                rgb.beginPath();
+                rgb.moveTo(k+30, 300);
+                rgb.lineTo(k+30, 300 - blue_freq[k]/30);
+                rgb.closePath();
+                rgb.strokeStyle = '#000099';
+                rgb.stroke();
             }
             
     };	    
     </script>
 
+<h2> Histograma de Luminância </h2>
+    <ul>
+        <li> Usei primeiro a função RGBToHSL retornando os valores H, S e L. Preferi retornar apenas o valor da luminância, pois foi mais fácil; </li>
+        <li> Precisei trocar todas as variáveis ctx, pois se há duas iguais, uma é ignorada. Por isso, só uma imagem estava sendo exibida;</li>
+    </ul>
+    <figure>
+        <canvas id="imagemOriginal2" width="900" height="600"></canvas>
+        <canvas id="histo_luminancia" width="270" height="400"></canvas>
+        <figcaption>
+            Esquerda: imagem original; direita: histograma de luminância correspondente
+        </figcaption>
+    </figure>
+
+    <script>
+        //fonte https://css-tricks.com/converting-color-spaces-in-javascript/
+        //retorna somente a luminância, pois só ela nos interessa
+        //Note que os valores variam de 0 a 100
+    function RGBToHSL(r,g,b) {
+        // Make r, g, and b fractions of 1
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        // Find greatest and smallest channel values
+        let cmin = Math.min(r,g,b),
+            cmax = Math.max(r,g,b),
+            delta = cmax - cmin,
+            h = 0,
+            s = 0,
+            l = 0;
+
+        // Calculate hue
+        // No difference
+        if (delta == 0)
+            h = 0;
+        // Red is max
+        else if (cmax == r)
+            h = ((g - b) / delta) % 6;
+        // Green is max
+        else if (cmax == g)
+            h = (b - r) / delta + 2;
+        // Blue is max
+        else
+            h = (r - g) / delta + 4;
+
+        h = Math.round(h * 60);
+            
+        // Make negative hues positive behind 360°
+        if (h < 0)
+            h += 360;
+        
+        // Calculate lightness
+            l = (cmax + cmin) / 2;
+
+        // Calculate saturation
+        s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        
+        // Multiply l and s by 100
+        s = +(s * 100).toFixed(1);
+        l = +(l * 100).toFixed(1);
+
+        return l;
+    }
+
+    var canvasOriginal = document.getElementById("imagemOriginal2");
+    var ctxOriginal2 = canvasOriginal.getContext("2d");
+    
+    var canvasOut = document.getElementById("histo_luminancia");
+    var ctxOutput = canvasOut.getContext("2d");
+    
+    var imgOriginal = new Image();
+    var imgDataOut = new Image();
+
+    var imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg/1024px-%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg";
+        
+        imgOriginal.crossOrigin = '';
+        imgDataOut.crossOrigin = '';
+        imgOriginal.src = imgUrl;
+        imgOriginal.onload = function(){
+            ctxOriginal2.drawImage(imgOriginal, 0, 0);
+            
+            imgDataOut = ctxOriginal2.getImageData(0, 0, 900, 600); //dados de todos os pixels da imagem
+
+            let lumi = {};
+
+            //a limunância está entre 0 e 100, determinada pela função
+            for (let i = 0; i < 101; i ++) {
+                lumi[i] = 0;
+            }
+
+            for (let i = 0; i < imgDataOut.data.length; i += 4) {
+
+                //a função recebe três parâmetros
+                lumi_i = RGBToHSL(imgDataOut.data[i],imgDataOut.data[i+1],imgDataOut.data[i+2]);
+
+                //números quebrados não interessam, vamos trocar para inteiros
+                lumi_i = Math.round(lumi_i);
+
+                lumi[lumi_i] += 1;
+
+            }
+
+
+                //plota o histograma
+            for (let k = 0; k < 101; k++) {
+                //red
+                ctxOutput.beginPath();
+                ctxOutput.moveTo(2*k+30, 300);
+                ctxOutput.lineTo(2*k+30, 300 - lumi[k]/40);
+                ctxOutput.closePath();
+                ctxOutput.strokeStyle = '#000000';
+                ctxOutput.stroke();
+            }
+
+            ctxOutput.font = "12px Arial";
+            ctxOutput.fillText("0", 25, 315);
+            ctxOutput.fillText("100", 225, 315);
+
+        };
+
+    </script>
+
+<h2> Alterando contrastes pela Luminância </h2>
 </body>
 </html>
+    
