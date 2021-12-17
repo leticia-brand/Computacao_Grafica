@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <title> Processamento de cores </title>
 </head>
@@ -10,7 +11,7 @@
  <h2> Histograma de RGB</h2>
     <figure>
         <canvas id="imagemOriginal" width="900" height="600"></canvas>
-        <canvas id="histo_rgb" width="320" height="400"></canvas>
+        <canvas id="histo_rgb" width="300" height="400"></canvas>
         <figcaption>
             Esquerda: imagem original; direita: histograma RGB correspondente
         </figcaption>
@@ -74,37 +75,40 @@
             for (let k = 0; k < 256; k++) {
                 //red
                 rgb.beginPath();
-                rgb.moveTo(k+30, 300);
-                rgb.lineTo(k+30, 300 - red_freq[k]/30);
+                rgb.moveTo(k+20, 300);
+                rgb.lineTo(k+20, 300 - red_freq[k]/30);
                 rgb.closePath();
                 rgb.strokeStyle = '#CD5C5C';
                 rgb.stroke();
 
                 //gren
                 rgb.beginPath();
-                rgb.moveTo(k+30, 300);
-                rgb.lineTo(k+30, 300 - green_freq[k]/30);
+                rgb.moveTo(k+20, 300);
+                rgb.lineTo(k+20, 300 - green_freq[k]/30);
                 rgb.closePath();
                 rgb.strokeStyle = '	#228B22';
                 rgb.stroke();
 
                 //blue
                 rgb.beginPath();
-                rgb.moveTo(k+30, 300);
-                rgb.lineTo(k+30, 300 - blue_freq[k]/30);
+                rgb.moveTo(k+20, 300);
+                rgb.lineTo(k+20, 300 - blue_freq[k]/30);
                 rgb.closePath();
                 rgb.strokeStyle = '#000099';
                 rgb.stroke();
             }
-            
+
+            rgb.font = "12px Arial";
+            rgb.fillText("0", 15, 315);
+            rgb.fillText("255", 267, 315);
     };	    
     </script>
 
 <h2> Histograma de Luminância </h2>
     <ul>
-        <li> Usei primeiro a função RGBToHSL retornando os valores H, S e L. Preferi retornar apenas o valor da luminância, pois foi mais fácil; </li>
-        <li> Precisei trocar todas as variáveis ctx, pois se há duas iguais, uma é ignorada. Por isso, só uma imagem estava sendo exibida;</li>
+        <li> Precisei trocar todas as variáveis ctx, pois se há duas iguais, uma é ignorada</li>
     </ul>
+
     <figure>
         <canvas id="imagemOriginal2" width="900" height="600"></canvas>
         <canvas id="histo_luminancia" width="270" height="400"></canvas>
@@ -161,7 +165,7 @@
         s = +(s * 100).toFixed(1);
         l = +(l * 100).toFixed(1);
 
-        return l;
+        return [h,s,l];
     }
 
     var canvasOriginal = document.getElementById("imagemOriginal2");
@@ -193,7 +197,8 @@
             for (let i = 0; i < imgDataOut.data.length; i += 4) {
 
                 //a função recebe três parâmetros
-                lumi_i = RGBToHSL(imgDataOut.data[i],imgDataOut.data[i+1],imgDataOut.data[i+2]);
+                hsl = RGBToHSL(imgDataOut.data[i],imgDataOut.data[i+1],imgDataOut.data[i+2]);
+                lumi_i = hsl[2]
 
                 //números quebrados não interessam, vamos trocar para inteiros
                 lumi_i = Math.round(lumi_i);
@@ -217,12 +222,196 @@
             ctxOutput.font = "12px Arial";
             ctxOutput.fillText("0", 25, 315);
             ctxOutput.fillText("100", 225, 315);
+            ctxOutput.fillText("50", 125, 315);
+            ctxOutput.fillText("75", 175, 315);
 
         };
 
     </script>
 
 <h2> Alterando contrastes pela Luminância </h2>
+<p> <a href="http://www.dpi.inpe.br/spring/portugues/tutorial/introducao_pro.html">Site</a> muito interessante sobre transformações
+     em histogramas </p>
+<p>Pelo histograma de luminância é possível notar que há grande concentração perto da metade (luminância = 50) e que 
+     há pouquíssimos dados depois do 75. Assim, para realçar luminâncias pequenas (próximas de 0) e grandes (próximas def
+     100), dividi o gráfico a partir do 50 e fiz duas reflexões, para o 100 e para o 0.</p>
+
+    <figure>
+        <canvas id="imagem" width="900" height="600"></canvas>
+        <canvas id="histo_luminancia2" width="270" height="400"></canvas>
+        <figcaption>
+            Esquerda: imagem com maior contraste; direita: histograma correspondente.
+        </figcaption>
+    </figure>
+
+    <script>
+
+    function RGBToHSL(r,g,b) {
+        // Make r, g, and b fractions of 1
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        // Find greatest and smallest channel values
+        let cmin = Math.min(r,g,b),
+            cmax = Math.max(r,g,b),
+            delta = cmax - cmin,
+            h = 0,
+            s = 0,
+            l = 0;
+
+        // Calculate hue
+        // No difference
+        if (delta == 0)
+            h = 0;
+        // Red is max
+        else if (cmax == r)
+            h = ((g - b) / delta) % 6;
+        // Green is max
+        else if (cmax == g)
+            h = (b - r) / delta + 2;
+        // Blue is max
+        else
+            h = (r - g) / delta + 4;
+
+        h = Math.round(h * 60);
+            
+        // Make negative hues positive behind 360°
+        if (h < 0)
+            h += 360;
+        
+        // Calculate lightness
+            l = (cmax + cmin) / 2;
+
+        // Calculate saturation
+        s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        
+        // Multiply l and s by 100
+        s = +(s * 100).toFixed(1);
+        l = +(l * 100).toFixed(1);
+
+        return [h,s,l];
+    }
+    
+    function HSLToRGB(h,s,l) {
+        // Must be fractions of 1
+        s /= 100;
+        l /= 100;
+
+        let c = (1 - Math.abs(2 * l - 1)) * s,
+            x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+            m = l - c/2,
+            r = 0,
+            g = 0,
+            b = 0;
+
+            if (0 <= h && h < 60) {
+                r = c; g = x; b = 0;  
+            } else if (60 <= h && h < 120) {
+                r = x; g = c; b = 0;
+            } else if (120 <= h && h < 180) {
+                r = 0; g = c; b = x;
+            } else if (180 <= h && h < 240) {
+                r = 0; g = x; b = c;
+            } else if (240 <= h && h < 300) {
+                r = x; g = 0; b = c;
+            } else if (300 <= h && h < 360) {
+                r = c; g = 0; b = x;
+            }
+            r = Math.round((r + m) * 255);
+            g = Math.round((g + m) * 255);
+            b = Math.round((b + m) * 255);
+
+            return [r, g, b];
+	}
+        
+        var canvasOriginal = document.getElementById("imagem");
+        var ctxOriginal3 = canvasOriginal.getContext("2d");
+        
+        var canvasOut = document.getElementById("histo_luminancia2");
+        var ctxLumiavg = canvasOut.getContext("2d");
+        
+        var imgOriginal = new Image();
+        var imgDataOut = new Image();
+
+        var imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg/1024px-%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg";
+            
+        imgOriginal.crossOrigin = '';
+        imgDataOut.crossOrigin = '';
+        imgOriginal.src = imgUrl;
+        imgOriginal.onload = function(){
+            ctxOriginal3.drawImage(imgOriginal, 0, 0);
+            
+            imgDataOut = ctxOriginal3.getImageData(0, 0, 900, 600);
+
+            let lumi = {};
+
+            //a limunância está entre 0 e 100, determinada pela função
+            for (let i = 0; i < 101; i ++) {
+                lumi[i] = 0;
+            }
+
+            for (let i = 0; i < imgDataOut.data.length; i += 4) {
+
+                //a função recebe três parâmetros e retorna 3 parâmetros
+                hsl = RGBToHSL(imgDataOut.data[i],imgDataOut.data[i+1],imgDataOut.data[i+2]);
+                lumi_i = hsl[2];
+                h = hsl[0];
+                s = hsl[1]
+
+                //números racionais não interessam, vamos trocar para inteiros
+                lumi_i = Math.round(lumi_i);
+
+
+                //Reflexão em relação ao 50, dividida em 2 partes: menores que 50 e maiores que 50.
+                if (lumi_i>50){
+                    lumi_new = 100 - (lumi_i - 50);
+                }
+                else {
+                    lumi_new = 50 - lumi_i;
+                }
+                lumi[lumi_new] += 1;
+
+
+                //gerar a nova imagem com rgb, utilizando a nova luminânica
+                rgb = HSLToRGB(h,s,lumi_new);
+                r = rgb[0];
+                g = rgb[1];
+                b = rgb[2];
+
+                imgDataOut.data[i] = r;
+			    imgDataOut.data[i+1] = g;
+			    imgDataOut.data[i+2] = b;
+            }
+
+            ctxOriginal3.putImageData(imgDataOut, 0, 0);
+
+
+                //plota o histograma
+            for (let k = 0; k < 101; k++) {
+                //red
+                ctxLumiavg.beginPath();
+                ctxLumiavg.moveTo(2*k+30, 300);
+                ctxLumiavg.lineTo(2*k+30, 300 - lumi[k]/40);
+                ctxLumiavg.closePath();
+                ctxLumiavg.strokeStyle = '#000000';
+                ctxLumiavg.stroke();
+            }
+
+            ctxLumiavg.font = "12px Arial";
+            ctxLumiavg.fillText("0", 25, 315);
+            ctxLumiavg.fillText("100", 225, 315);
+            ctxLumiavg.fillText("50", 125, 315);
+            ctxLumiavg.fillText("75", 175, 315);
+            ctxLumiavg.beginPath();
+            ctxLumiavg.moveTo(130, 300);
+            ctxLumiavg.lineTo(130, 00);
+            ctxLumiavg.closePath();
+            ctxLumiavg.strokeStyle = '#CD5C5C';
+            ctxLumiavg.stroke();
+
+        };
+    </script>
 </body>
 </html>
     
