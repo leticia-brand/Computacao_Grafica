@@ -5,10 +5,10 @@
 <body>
 
     <figure>
-        <canvas id="imagemOriginal" width="900" height="600"></canvas>
-        <canvas id="imagemOutput" width="900" height="600"></canvas>
+        <canvas id="imagemOriginal" width="950" height="600"></canvas>
+        <canvas id="imagemOutput" width="270" height="400"></canvas>
         <figcaption>
-            Imagem da esquerda: Original. Imagem da direita: Imagem processada.
+            Imagem e histograma RGB correspondente
         </figcaption>
     </figure>
 
@@ -28,27 +28,71 @@
     //https://developpaper.com/explain-how-to-solve-the-cross-domain-problem-of-canvas-image-getimagedata-todataurl/
         
         var imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg/1024px-%D0%A8%D0%BF%D0%B8%D1%86%D1%96_3.jpg";
-        //var imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Eiffel_tower_at_Exposition_Universelle%2C_Paris%2C_1889.jpg/800px-Eiffel_tower_at_Exposition_Universelle%2C_Paris%2C_1889.jpg";
-       
+        
         imgOriginal.crossOrigin = '';
         imgDataOut.crossOrigin = '';
         imgOriginal.src = imgUrl;
         imgOriginal.onload = function(){
             ctxOriginal.drawImage(imgOriginal, 0, 0);
-            ctxOutput.drawImage(imgOriginal, 0, 0);
-            //ctxOutput.drawImage(imgOriginal, 50, 50);
-            //ctxOutput.drawImage(imgOriginal, 100, 100);
             
-            imgDataOut = ctxOriginal.getImageData(0, 0, 390, 600);
+            imgDataOut = ctxOriginal.getImageData(0, 0, 900, 600); //dados de todos os pixels da imagem
             
-            // invert colors
-            for (let i = 0; i < imgDataOut.data.length; i += 4) {
-                imgDataOut.data[i] = 255 - imgDataOut.data[i];
-                imgDataOut.data[i+1] = 255 - imgDataOut.data[i+1];
-                imgDataOut.data[i+2] = 255 - imgDataOut.data[i+2];
-                //imgDataOut.data[i+3] = 255;
+
+            //contrói lista das cores com a quantidade em que aparecem
+            //Não vou usar o canal de luminância
+            //Usar dicionários facilita o processo
+
+            red_freq = {};
+            green_freq = {};
+            blue_freq = {};
+
+            //Lembrar que os dicionários estão vazios, então vai aparecer NaN no lugar de números
+            //Sabemos os valores minimo (0) e máximo (255)
+
+            for (let j = 0; j < 256; j ++) {
+                red_freq[j] = 0;
+                green_freq[j] = 0;
+                blue_freq[j] = 0;
             }
-            ctxOutput.putImageData(imgDataOut, 0, 0);		
+
+            for (let i = 0; i < imgDataOut.data.length; i += 4) {
+
+                //para cada ocorrência, soma 1
+
+                red_freq[imgDataOut.data[i]] += 1; //red
+                green_freq[imgDataOut.data[i+1]] += 1; //gren
+                blue_freq[imgDataOut.data[i+2]] += 1; //blue
+                
+            }
+
+            //plota o histograma
+            //importante começar do final, ou o histograma vai ficar de cabeça para baixo
+            for (let k = 0; k < 256; k++) {
+                //red
+                ctxOutput.beginPath();
+                ctxOutput.moveTo(k, 300);
+                ctxOutput.lineTo(k, 300 - red_freq[k]/40);
+                ctxOutput.closePath();
+                ctxOutput.strokeStyle = '#CD5C5C';
+                ctxOutput.stroke();
+
+                //gren
+                ctxOutput.beginPath();
+                ctxOutput.moveTo(k, 300);
+                ctxOutput.lineTo(k, 300 - green_freq[k]/40);
+                ctxOutput.closePath();
+                ctxOutput.strokeStyle = '	#228B22';
+                ctxOutput.stroke();
+
+                //blue
+                ctxOutput.beginPath();
+                ctxOutput.moveTo(k, 300);
+                ctxOutput.lineTo(k, 300 - blue_freq[k]/40);
+                ctxOutput.closePath();
+                ctxOutput.strokeStyle = '#000099';
+                ctxOutput.stroke();
+            }
+            
     };	    
     </script>
 
